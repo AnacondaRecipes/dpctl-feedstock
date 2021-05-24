@@ -1,0 +1,57 @@
+{% set name = "dpctl" %}
+{% set version = "0.7.0" %}
+{% set sha256 = "92f2294aa2bdf1e8b94c82460e62af6aea3ff50827e7a97e1135d3f2f788a68d" %}
+
+package:
+    name: {{ name|lower }}
+    version: {{ version }}
+
+source:
+    url: https://github.com/IntelPython/{{ name }}/archive/{{ version }}.tar.gz
+    sha256: {{ sha256 }}
+build:
+    number: 0 
+    script_env:
+        - ONEAPI_ROOT
+
+requirements:
+    build:
+        - {{ compiler('cxx') }}
+    host:
+        - setuptools
+        - cython
+        - cmake
+        - python
+        - make  # [unix]
+        - ninja  # [win]
+        - numpy >=1.17
+        - wheel
+    run:
+        - python
+        - numpy >=1.17
+        - dpcpp_cpp_rt >=2021.2
+
+test:
+    requires:
+        - pytest
+        - pytest-cov
+
+about:
+    home: https://github.com/IntelPython/dpctl.git
+    license: Apache-2.0
+    license_file: LICENSE
+    summary: 'A lightweight Python wrapper for a subset of OpenCL and SYCL API.'
+    description: |
+        <strong>LEGAL NOTICE: Use of this software package is subject to the
+        software license agreement (as set forth above, in the license section of
+        the installed Conda package and/or the README file) and all notices,
+        disclaimers or license terms for third party or open source software
+        included in or with the software.</strong>
+        <br/><br/>
+        EULA: <a href="https://opensource.org/licenses/Apache-2.0" target="_blank">Apache-2.0</a>
+        <br/><br/>
+
+extra:
+    recipe-maintainers:
+        - diptorup deb
+        - PokhodenkoSA
