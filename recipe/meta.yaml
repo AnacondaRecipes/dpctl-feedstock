@@ -1,6 +1,6 @@
 {% set name = "dpctl" %}
-{% set version = "0.7.0" %}
-{% set sha256 = "92f2294aa2bdf1e8b94c82460e62af6aea3ff50827e7a97e1135d3f2f788a68d" %}
+{% set version = "0.6.1" %}
+{% set sha256 = "96a55dfa60e3b6390320ce15cc499582cfa623c7a27c2ebfe79ad7728a1dded6" %}
 
 package:
     name: {{ name|lower }}
