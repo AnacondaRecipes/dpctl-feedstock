@@ -33,7 +33,7 @@ requirements:
     run:
         - python
         - {{ pin_compatible('numpy') }}
-        - dpcpp-cpp-rt >=2021.2
+        - dpcpp-cpp-rt >={{ dpcpp_compiler_version }}
 
 test:
     requires:
