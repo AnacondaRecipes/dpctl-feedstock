@@ -1,17 +1,19 @@
-call "%ONEAPI_ROOT%\compiler\latest\env\vars.bat"
-if errorlevel 1 (
-    echo "oneAPI compiler activation failed"
-    exit /b 1
-)
+
+REM A workaround for activate-dpcpp.bat issue to be addressed in 2021.4
+set "LIB=%BUILD_PREFIX%\Library\lib;%BUILD_PREFIX%\compiler\lib;%LIB%"
+set "INCLUDE=%BUILD_PREFIX%\include;%INCLUDE%"
 
 "%PYTHON%" setup.py clean --all
-"%PYTHON%" setup.py install
-if errorlevel 1 exit 1
+set "INSTALL_CMD=install --sycl-compiler-prefix=%BUILD_PREFIX%\Library"
 
-rem Build wheel package
 if NOT "%WHEELS_OUTPUT_FOLDER%"=="" (
-    %PYTHON% setup.py bdist_wheel
+    rem Install and assemble wheel package from the build bits
+    "%PYTHON%" setup.py %INSTALL_CMD% bdist_wheel
     if errorlevel 1 exit 1
     copy dist\dpctl*.whl %WHEELS_OUTPUT_FOLDER%
+    if errorlevel 1 exit 1
+) ELSE (
+    rem Only install
+    "%PYTHON%" setup.py %INSTALL_CMD%
     if errorlevel 1 exit 1
 )
