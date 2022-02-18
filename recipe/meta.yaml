@@ -1,6 +1,6 @@
 {% set name = "dpctl" %}
-{% set version = "0.7.0" %}
-{% set sha256 = "92f2294aa2bdf1e8b94c82460e62af6aea3ff50827e7a97e1135d3f2f788a68d" %}
+{% set version = "0.11.4" %}
+{% set sha256 = "5193fef092db4a66d30ed5f1951289f733aeee3e1a6acc784476c5fc17cbad5c" %}
 
 package:
     name: {{ name|lower }}
@@ -10,29 +10,34 @@ source:
     url: https://github.com/IntelPython/{{ name }}/archive/{{ version }}.tar.gz
     sha256: {{ sha256 }}
 build:
-    number: 0 
+    number: 0
+    skip: True  # [not (x86_64 and (linux or win))]
     script_env:
         - ONEAPI_ROOT
+    ignore_run_exports:
+        - dpcpp-cpp-rt  # follow intel channel's package and set this in run.
 
 requirements:
     build:
         - {{ compiler('cxx') }}
+        - {{ compiler('dpcpp') }}  # [not osx]
     host:
         - setuptools
         - cython
         - cmake
         - python
-        - make  # [unix]
-        - ninja  # [win]
-        - numpy >=1.17
+        - make                     # [unix]
+        - ninja                    # [win]
+        - numpy 1.19
         - wheel
     run:
         - python
-        - numpy >=1.17
-        - dpcpp_cpp_rt >=2021.2
+        - {{ pin_compatible('numpy') }}
+        - dpcpp-cpp-rt >=2021.2
 
 test:
     requires:
+        - cython
         - pytest
         - pytest-cov
 
