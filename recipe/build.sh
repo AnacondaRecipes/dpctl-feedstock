@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "${PKG_NAME}-${PKG_VERSION}"
+
 # Workaround to Klocwork overwriting LD_LIBRARY_PATH that was modified
 # by DPC++ compiler conda packages. Will need to be added to DPC++ compiler
 # activation scripts.
