@@ -1,6 +1,6 @@
 {% set name = "dpctl" %}
-{% set version = "0.11.4" %}
-{% set sha256 = "5193fef092db4a66d30ed5f1951289f733aeee3e1a6acc784476c5fc17cbad5c" %}
+{% set version = "0.13.0" %}
+{% set sha256 = "8cdee1fb7d8483ec136015e21dc133928ee986a8f7948db1d2db1b63f4181fb7" %}
 
 package:
     name: {{ name|lower }}
@@ -20,20 +20,21 @@ build:
 
 requirements:
     build:
-        - {{ compiler('cxx') }}
+        #- {{ compiler('c') }}
+        #- {{ compiler('cxx') }}
         - {{ compiler('dpcpp') }}  # [not osx]
     host:
         - setuptools
         - cython
-        - cmake
+        - cmake  >=3.21
         - python
-        - make                     # [unix]
-        - ninja                    # [win]
-        - numpy 1.19
+        - ninja
+        - scikit-build
+        - numpy 1.21
         - wheel
     run:
         - python
-        - {{ pin_compatible('numpy') }}
+        - {{ pin_compatible('numpy', min_pin='x.x', max_pin='x') }}
         - dpcpp-cpp-rt >={{ dpcpp_compiler_version }}
 
 test:
