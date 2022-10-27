@@ -10,19 +10,24 @@ source:
     url: https://github.com/IntelPython/{{ name }}/archive/{{ version }}.tar.gz
     sha256: {{ sha256 }}
     folder: "{{ name|lower }}-{{ version }}"
+    patches:
+        - 0001-fix-build-breakage-with-update-of-skbuild.patch
 build:
     number: 0
     skip: True  # [not (x86_64 and (linux or win))]
     script_env:
         - ONEAPI_ROOT
+    missing_dso_whitelist: # [linux]
+        - $RPATH/lib*      # [linux]
     ignore_run_exports:
         - dpcpp-cpp-rt  # follow intel channel's package and set this in run.
 
 requirements:
     build:
-        #- {{ compiler('c') }}
-        #- {{ compiler('cxx') }}
-        - {{ compiler('dpcpp') }}  # [not osx]
+        - {{ compiler('c') }}
+        - {{ compiler('dpcpp') }}
+        - patch
+        - m2-patch
     host:
         - setuptools
         - cython
@@ -48,7 +53,8 @@ about:
     license: Apache-2.0
     license_family: Apache
     license_file: "{{ name|lower }}-{{ version }}/LICENSE"
-    summary: 'A lightweight Python wrapper for a subset of SYCL API.'
+    license_url: https://github.com/IntelPython/dpctl/blob/master/LICENSE
+    summary: A lightweight Python wrapper for a subset of SYCL API.
     description: |
         <strong>LEGAL NOTICE: Use of this software package is subject to the
         software license agreement (as set forth above, in the license section of
@@ -60,6 +66,7 @@ about:
         <br/><br/>
     dev_url: https://github.com/IntelPython/dpctl
     doc_url: https://intelpython.github.io/dpctl/latest/index.html
+    doc_source_url: https://github.com/IntelPython/dpctl#readme
 
 extra:
     recipe-maintainers:
