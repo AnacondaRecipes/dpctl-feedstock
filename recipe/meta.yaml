@@ -15,6 +15,7 @@ source:
 build:
     number: 0
     skip: True  # [not (x86_64 and (linux or win))]
+    skip: True  # [py<38]
     script_env:
         - ONEAPI_ROOT
     missing_dso_whitelist: # [linux]
