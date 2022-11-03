@@ -14,16 +14,11 @@ source:
         - 0001-fix-build-breakage-with-update-of-skbuild.patch
 build:
     number: 0
-    skip: True  # [not (x86_64 and (linux or win))]
 
+    # Only supported on intel compilers
     # Some syntax used in dpctl is only supported from python 3.8
-    skip: True  # [py<38]
-
-    # On Windows Package intel-openmp conflicts for:                                                                                                                      
-    # numpy[version='>=1.21,<2.0a0'] -> mkl[version='>=2021.4.0,<2022.0a0'] -> intel-openmp=2021                                                               
-    # pcpp-cpp-rt[version='>=2022.1'] -> intel-openmp=2022
-    # The rebuild against mkl 2022 must happen before we can build dpctl for windows.
-    skip: True  # [win]
+    # A rebuild against mkl 2022 must happen before we can build dpctl for windows.
+    skip: True  # [(not (x86_64 and (linux or win))) or py<38 or win]
 
     script_env:
         - ONEAPI_ROOT
