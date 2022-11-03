@@ -12,6 +12,7 @@ source:
     folder: "{{ name|lower }}-{{ version }}"
     patches:
         - 0001-fix-build-breakage-with-update-of-skbuild.patch
+        - 0002-remove-pybind-fetch.patch
 build:
     number: 0
 
@@ -37,7 +38,7 @@ requirements:
         - setuptools
         - cython
         - cmake  >=3.21
-        - git
+        - pybind11 2.9.2
         - python
         - ninja
         - scikit-build
