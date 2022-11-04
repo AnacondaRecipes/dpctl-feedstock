@@ -37,6 +37,7 @@ requirements:
         - cmake >=3.21
         - git
         - ninja
+        - cython
     host:
         - setuptools
         - cython
