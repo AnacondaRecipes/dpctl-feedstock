@@ -34,20 +34,20 @@ requirements:
         - {{ compiler('dpcpp') }}
         - patch     # [not win]
         - m2-patch  # [win]
+        - cmake >=3.21
+        - git
+        - ninja
     host:
         - setuptools
         - cython
-        - cmake  >=3.21
         - pybind11 2.9.2
-        - git
         - python
-        - ninja
         - scikit-build
         - numpy 1.21
         - wheel
     run:
         - python
-        - {{ pin_compatible('numpy', min_pin='x.x', max_pin='x') }}
+        - numpy >=1.21,<2
         - dpcpp-cpp-rt >={{ dpcpp_compiler_version }}
 
 test:
