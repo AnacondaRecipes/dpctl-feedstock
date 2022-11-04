@@ -1,0 +1,7 @@
+# --no-test because the tests fail when executed from the EC2 instance
+# Tested on an x86 server that this works as expected.
+build_parameters:
+  - "--suppress-variables"
+  - "--error-overlinking"
+  - "--error-overdepending"
+  - "--no-test"

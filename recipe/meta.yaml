@@ -1,6 +1,6 @@
 {% set name = "dpctl" %}
-{% set version = "0.11.4" %}
-{% set sha256 = "5193fef092db4a66d30ed5f1951289f733aeee3e1a6acc784476c5fc17cbad5c" %}
+{% set version = "0.13.0" %}
+{% set sha256 = "8cdee1fb7d8483ec136015e21dc133928ee986a8f7948db1d2db1b63f4181fb7" %}
 
 package:
     name: {{ name|lower }}
@@ -10,30 +10,45 @@ source:
     url: https://github.com/IntelPython/{{ name }}/archive/{{ version }}.tar.gz
     sha256: {{ sha256 }}
     folder: "{{ name|lower }}-{{ version }}"
+    patches:
+        - 0001-fix-build-breakage-with-update-of-skbuild.patch
+        - 0002-remove-pybind-fetch.patch
 build:
     number: 0
-    skip: True  # [not (x86_64 and (linux or win))]
+
+    # Only supported on intel compilers
+    # Some syntax used in dpctl is only supported from python 3.8
+    # A rebuild against mkl 2022 must happen before we can build dpctl for windows.
+    skip: True  # [(not (x86_64 and (linux or win))) or py<38 or win]
+
     script_env:
         - ONEAPI_ROOT
+    missing_dso_whitelist: # [linux]
+        - $RPATH/lib*      # [linux]
     ignore_run_exports:
         - dpcpp-cpp-rt  # follow intel channel's package and set this in run.
 
 requirements:
     build:
-        - {{ compiler('cxx') }}
-        - {{ compiler('dpcpp') }}  # [not osx]
+        - {{ compiler('c') }}
+        - {{ compiler('dpcpp') }}
+        - patch     # [not win]
+        - m2-patch  # [win]
+        - cmake >=3.21
+        - git
+        - ninja
+        - cython
     host:
         - setuptools
         - cython
-        - cmake
+        - pybind11 2.9.2
         - python
-        - make                     # [unix]
-        - ninja                    # [win]
-        - numpy 1.19
+        - scikit-build
+        - numpy 1.21
         - wheel
     run:
         - python
-        - {{ pin_compatible('numpy') }}
+        - numpy >=1.21,<2
         - dpcpp-cpp-rt >={{ dpcpp_compiler_version }}
 
 test:
@@ -47,7 +62,8 @@ about:
     license: Apache-2.0
     license_family: Apache
     license_file: "{{ name|lower }}-{{ version }}/LICENSE"
-    summary: 'A lightweight Python wrapper for a subset of SYCL API.'
+    license_url: https://github.com/IntelPython/dpctl/blob/master/LICENSE
+    summary: A lightweight Python wrapper for a subset of SYCL API.
     description: |
         <strong>LEGAL NOTICE: Use of this software package is subject to the
         software license agreement (as set forth above, in the license section of
@@ -59,6 +75,7 @@ about:
         <br/><br/>
     dev_url: https://github.com/IntelPython/dpctl
     doc_url: https://intelpython.github.io/dpctl/latest/index.html
+    doc_source_url: https://github.com/IntelPython/dpctl#readme
 
 extra:
     recipe-maintainers:
