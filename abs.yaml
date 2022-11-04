@@ -5,6 +5,3 @@ build_parameters:
   - "--error-overlinking"
   - "--error-overdepending"
   - "--no-test"
-
-channels: 
-  cbouss: dpcpp
