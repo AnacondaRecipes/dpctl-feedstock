@@ -1,6 +1,6 @@
 {% set name = "dpctl" %}
-{% set version = "0.13.0" %}
-{% set sha256 = "8cdee1fb7d8483ec136015e21dc133928ee986a8f7948db1d2db1b63f4181fb7" %}
+{% set version = "0.14.2" %}
+{% set sha256 = "a7ad6d9a2d4fc0c78f5d23671904e5eb9b01dfedcb9198b65adf55212048075f" %}
 
 package:
     name: {{ name|lower }}
@@ -11,8 +11,7 @@ source:
     sha256: {{ sha256 }}
     folder: "{{ name|lower }}-{{ version }}"
     patches:
-        - 0001-fix-build-breakage-with-update-of-skbuild.patch
-        - 0002-remove-pybind-fetch.patch
+        - 0001-remove-pybind-fetch.patch
 build:
     number: 0
 
@@ -41,14 +40,14 @@ requirements:
     host:
         - setuptools
         - cython
-        - pybind11 2.9.2
+        - pybind11 2.10.1
         - python
         - scikit-build
-        - numpy 1.21
+        - numpy 1.22
         - wheel
     run:
         - python
-        - numpy >=1.21,<2
+        - numpy >=1.22,<2
         - dpcpp-cpp-rt >={{ dpcpp_compiler_version }}
 
 test:
