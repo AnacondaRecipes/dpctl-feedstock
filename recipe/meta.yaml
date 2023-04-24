@@ -40,7 +40,7 @@ requirements:
     host:
         - setuptools
         - cython
-        - pybind11 2.10.1
+        - pybind11 2.10.4
         - python
         - scikit-build
         - numpy 1.22

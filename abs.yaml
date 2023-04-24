@@ -5,3 +5,6 @@ build_parameters:
   - "--error-overlinking"
   - "--error-overdepending"
   - "--no-test"
+
+channels:
+  jcmorin-ana-org: dpctl-0.14.2
