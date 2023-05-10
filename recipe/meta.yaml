@@ -29,12 +29,13 @@ build:
 
 requirements:
     build:
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ compiler('dpcpp') }}
         - patch     # [not win]
         - m2-patch  # [win]
         - cmake >=3.21
-        - git
+        - git  # [not win]
         - ninja
         - cython
     host:
@@ -61,7 +62,6 @@ about:
     license: Apache-2.0
     license_family: Apache
     license_file: "{{ name|lower }}-{{ version }}/LICENSE"
-    license_url: https://github.com/IntelPython/dpctl/blob/master/LICENSE
     summary: A lightweight Python wrapper for a subset of SYCL API.
     description: |
         <strong>LEGAL NOTICE: Use of this software package is subject to the
@@ -74,7 +74,6 @@ about:
         <br/><br/>
     dev_url: https://github.com/IntelPython/dpctl
     doc_url: https://intelpython.github.io/dpctl/latest/index.html
-    doc_source_url: https://github.com/IntelPython/dpctl#readme
 
 extra:
     recipe-maintainers:
