@@ -45,7 +45,6 @@ requirements:
         - python
         - scikit-build 0.15.0
         - numpy 1.22
-        - wheel
     run:
         - python
         - numpy >=1.22,<2
