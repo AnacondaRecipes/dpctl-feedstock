@@ -40,10 +40,10 @@ requirements:
         - cython
     host:
         - setuptools
-        - cython
+        - cython 0.29.33
         - pybind11 2.10.4
         - python
-        - scikit-build
+        - scikit-build 0.15.0
         - numpy 1.22
         - wheel
     run:
