@@ -1,6 +1,6 @@
 {% set name = "dpctl" %}
-{% set version = "0.13.0" %}
-{% set sha256 = "8cdee1fb7d8483ec136015e21dc133928ee986a8f7948db1d2db1b63f4181fb7" %}
+{% set version = "0.14.2" %}
+{% set sha256 = "a7ad6d9a2d4fc0c78f5d23671904e5eb9b01dfedcb9198b65adf55212048075f" %}
 
 package:
     name: {{ name|lower }}
@@ -11,8 +11,7 @@ source:
     sha256: {{ sha256 }}
     folder: "{{ name|lower }}-{{ version }}"
     patches:
-        - 0001-fix-build-breakage-with-update-of-skbuild.patch
-        - 0002-remove-pybind-fetch.patch
+        - 0001-remove-pybind-fetch.patch
 build:
     number: 0
 
@@ -31,24 +30,24 @@ build:
 requirements:
     build:
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - {{ compiler('dpcpp') }}
         - patch     # [not win]
         - m2-patch  # [win]
         - cmake >=3.21
-        - git
+        - git  # [not win]
         - ninja
         - cython
     host:
         - setuptools
-        - cython
-        - pybind11 2.9.2
+        - cython 0.29.33
+        - pybind11 2.10.4
         - python
-        - scikit-build
-        - numpy 1.21
-        - wheel
+        - scikit-build 0.15.0
+        - numpy 1.22
     run:
         - python
-        - numpy >=1.21,<2
+        - numpy >=1.22,<2
         - dpcpp-cpp-rt >={{ dpcpp_compiler_version }}
 
 test:
@@ -62,20 +61,12 @@ about:
     license: Apache-2.0
     license_family: Apache
     license_file: "{{ name|lower }}-{{ version }}/LICENSE"
-    license_url: https://github.com/IntelPython/dpctl/blob/master/LICENSE
     summary: A lightweight Python wrapper for a subset of SYCL API.
     description: |
-        <strong>LEGAL NOTICE: Use of this software package is subject to the
-        software license agreement (as set forth above, in the license section of
-        the installed Conda package and/or the README file) and all notices,
-        disclaimers or license terms for third party or open source software
-        included in or with the software.</strong>
-        <br/><br/>
-        EULA: <a href="https://opensource.org/licenses/Apache-2.0" target="_blank">Apache-2.0</a>
-        <br/><br/>
+        Data Parallel Control or dpctl is a Python library that allows users to control
+        the execution placement of a compute kernel on an XPU.
     dev_url: https://github.com/IntelPython/dpctl
     doc_url: https://intelpython.github.io/dpctl/latest/index.html
-    doc_source_url: https://github.com/IntelPython/dpctl#readme
 
 extra:
     recipe-maintainers:
